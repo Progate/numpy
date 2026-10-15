@@ -1258,11 +1258,17 @@ if (#varname#_cb.capi==Py_None) {
      },
     # Character
     {
+        # Fortran passes the length of a CHARACTER dummy argument as a
+        # trailing hidden argument, also when the length is 1. Omitting it
+        # is not conforming and breaks where caller and callee types must
+        # agree (e.g. WebAssembly).
+        'callfortranappend': {l_not(isintent_c): '1,'},
         'need': 'string',
         '_check': ischaracter,
     },
     # Character array
     {
+        'callfortranappend': {l_not(isintent_c): '1,'},
         'need': 'string',
         '_check': ischaracterarray,
     },

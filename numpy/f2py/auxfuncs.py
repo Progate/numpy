@@ -727,6 +727,12 @@ def getcallprotoargument(rout, cb_map={}):
                  or isarrayofstrings(var)  # obsolete?
                  or isstringarray(var)):
                 arg_types2.append('size_t')
+            # A CHARACTER dummy argument of length 1 also receives its
+            # length as a trailing hidden argument (unless it is a C
+            # argument).
+            elif (ischaracter_or_characterarray(var)
+                  and not isintent_c(var)):
+                arg_types2.append('size_t')
         arg_types.append(ctype)
 
     proto_args = ','.join(arg_types + arg_types2)
